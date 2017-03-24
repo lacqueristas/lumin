@@ -12,6 +12,7 @@ RUN npm install
 
 COPY source/ $APPLICATION/source
 COPY .babelrc $APPLICATION/
+COPY googleCloud.secret.json $APPLICATION/
 
 RUN npm run build
 
