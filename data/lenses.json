@@ -1,0 +1,31 @@
+{
+  "lenses": [
+    {
+      "name": "original",
+      "pipeline": [
+        ["noProfile"]
+      ]
+    },
+    {
+      "name": "large",
+      "pipeline": [
+        ["noProfile"],
+        ["resize", 640, 640, "^"]
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "pipeline": [
+        ["noProfile"],
+        ["resize", 240, 240, "^"]
+      ]
+    },
+    {
+      "name": "micro",
+      "pipeline": [
+        ["noProfile"],
+        ["resize", 64, 64, "^"]
+      ]
+    }
+  ]
+}
