@@ -7,9 +7,11 @@ import morgan from "morgan"
 import compression from "compression"
 import uuid from "uuid/v4"
 import {created} from "httpstatuses"
+import {split} from "ramda"
 
-import {logger} from "./remote"
-import {googleCloudStorage} from "./remote"
+import {logger} from "../remote"
+import {googleCloudStorage} from "../remote"
+import {zmqPushClient} from "../remote"
 
 requireEnvironmentVariables([
   "PORT",
@@ -27,8 +29,9 @@ application.use(morgan("dev"))
 application.use(compression())
 application.use(express.static(join(__dirname, "public")))
 
-application.post("/images", function postImages (request: any, response: any): any {
+application.post("/images", function createImage (request: any, response: any): any {
   const id = uuid()
+  const lenses = split(",", request.query.lenses || "original")
 
   return request
     .pipe(googleStorageBucket.file(`raws/${id}`).createWriteStream({
@@ -38,16 +41,20 @@ application.post("/images", function postImages (request: any, response: any): a
       "private": true,
     }))
     .on("error", logger.error)
-    .on("finish", (): any => response
-      .status(created)
-      .location(`/images/${id}`)
-      .end()
-    )
+    .on("finish", (): any => {
+      zmqPushClient().send(JSON.stringify([id, lenses]))
+
+      return response
+        .status(created)
+        .location(`${process.env.LUMIN_LOCATION}/images/${id}`)
+        .end()
+    })
 })
 
-application.get("/images/:id", function getImage (request: any, response: any): any {
+application.get("/images/:id", function showImage (request: any, response: any): any {
   return response.redirect(`${GOOGLE_CLOUD_URI}/${process.env.GOOGLE_CLOUD_STORAGE_BUCKET}/processed/${request.params.id}`)
 })
+
 
 application.listen(
   process.env.PORT,

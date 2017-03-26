@@ -19,7 +19,9 @@
   "author": "Kurtis Rainbolt-Greene <kurtis@rainbolt-greene.online>",
   "license": "ISC",
   "scripts": {
-    "start": "node './transpiled/index.js'",
+    "start": "npm-run-all --parallel start:server start:worker",
+    "start:server": "node './transpiled/server/index.js'",
+    "start:worker": "node './transpiled/worker/index.js'",
     "build": "babel './source/' --out-dir './transpiled/'",
     "watch": "npm-run-all --parallel watch:build watch:lint watch:test",
     "watch:lint": "chokidar './source/' --ignore '/node_modules/' --command 'npm run lint --silent'",
@@ -55,10 +57,15 @@
     "cors": "2.8.1",
     "express": "4.14.1",
     "fast-crc32c": "1.0.4",
+    "gm": "^1.23.0",
     "httpstatuses": "3.0.0",
     "morgan": "1.8.1",
     "npm-run-all": "4.0.1",
+    "ramda": "^0.23.0",
+    "ramda-extra": "^4.0.0",
     "require-environment-variables": "1.1.2",
-    "uuid": "3.0.1"
+    "uuid": "3.0.1",
+    "zeromq": "^4.2.0",
+    "zmq": "^2.15.3"
   }
 }
