@@ -17,4 +17,4 @@ tmp/
 
 # Secure files
 .env
-googleCloud.secrets.json
+*.secret.json
