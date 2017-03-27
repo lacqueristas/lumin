@@ -42,7 +42,7 @@ application.post("/images", function createImage (request: any, response: any): 
       "resumable": false,
       "private": true,
     }))
-    .on("error", logger.error)
+    .on("error", logger.error.bind(logger))
     .on("finish", (): any => {
       zmqPushClient().send(JSON.stringify([id, lenses]))
 

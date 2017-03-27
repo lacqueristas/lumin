@@ -38,7 +38,7 @@ zmqPullClient()
 
       reduce((previous: any, current: Function): any => current(previous), magickClient, chain)
        .stream()
-       .on("error", logger.error)
+       .on("error", logger.error.bind(logger))
        .on("end", () => {
          logger.info(`Finished processing ${id}/${name}`)
        })
