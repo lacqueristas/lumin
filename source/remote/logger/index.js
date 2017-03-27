@@ -1,3 +1,3 @@
-import {createLogger} from "bunyan"
+import bunyan from "bunyan"
 
-export default createLogger({name: "lumin"})
+export default bunyan.createLogger({name: "lumin"})
