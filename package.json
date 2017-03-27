@@ -27,7 +27,7 @@
     "watch:lint": "chokidar './source/' --ignore '/node_modules/' --command 'npm run lint --silent'",
     "watch:test": "chokidar './source/' --ignore '/node_modules/' --command 'npm run test --silent'",
     "watch:build": "chokidar './source/' --ignore '/node_modules/' --command 'npm run build --silent'",
-    "test": "mocha --compilers js:babel-register './source/**/test.js'",
+    "test": "babel-tap --jobs=2 './source/**/test.js'",
     "lint": "eslint './source/' --ignore-pattern 'node_modules'"
   },
   "devDependencies": {
