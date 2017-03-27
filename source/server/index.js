@@ -53,8 +53,8 @@ application.post("/images", function createImage (request: any, response: any): 
     })
 })
 
-application.get("/images/:id", function showImage (request: any, response: any): any {
-  return response.redirect(`${GOOGLE_CLOUD_URI}/${process.env.GOOGLE_CLOUD_STORAGE_BUCKET}/processed/${request.params.id}`)
+application.get("/images/:id/:lense", function showImage (request: any, response: any): any {
+  return response.redirect(`${GOOGLE_CLOUD_URI}/${process.env.GOOGLE_CLOUD_STORAGE_BUCKET}/processed/${request.params.id}/${request.params.lense}`)
 })
 
 
