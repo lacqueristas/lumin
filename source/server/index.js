@@ -8,6 +8,8 @@ import compression from "compression"
 import uuid from "uuid/v4"
 import {created} from "httpstatuses"
 import {split} from "ramda"
+import {zipObj} from "ramda"
+import {map} from "ramda"
 
 import {logger} from "../remote"
 import {googleCloudStorage} from "../remote"
@@ -46,7 +48,7 @@ application.post("/images", function createImage (request: any, response: any): 
 
       return response
         .status(created)
-        .location(`${process.env.LUMIN_LOCATION}/images/${id}`)
+        .links(zipObj(lenses, map((lense: string): string => `${process.env.LUMIN_LOCATION}/images/${id}/${lense}`, lenses)))
         .end()
     })
 })
