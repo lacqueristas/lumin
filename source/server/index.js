@@ -7,9 +7,12 @@ import morgan from "morgan"
 import compression from "compression"
 import uuid from "uuid/v4"
 import {created} from "httpstatuses"
+import {lengthRequired} from "httpstatuses"
+import {unsupportedMediaType} from "httpstatuses"
 import {split} from "ramda"
 import {zipObj} from "ramda"
 import {map} from "ramda"
+import {isNil} from "ramda"
 
 import {logger} from "../remote"
 import {googleCloudStorage} from "../remote"
@@ -34,6 +37,18 @@ application.use(express.static(join(__dirname, "public")))
 application.post("/images", function createImage (request: any, response: any): any {
   const id = uuid()
   const lenses = split(",", request.query.lenses || "original")
+
+  if (isNil(request.headers["content-type"])) {
+    return response
+      .status(unsupportedMediaType)
+      .end()
+  }
+
+  if (isNil(request.headers["content-length"])) {
+    return response
+      .status(lengthRequired)
+      .end()
+  }
 
   return request
     .pipe(googleStorageBucket.file(`raw/${id}`).createWriteStream({
