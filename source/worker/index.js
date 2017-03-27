@@ -33,6 +33,7 @@ zmqPullClient()
         "cacheControl": "public, max-age=31556926",
         "resumable": false,
         "private": false,
+        "public": true,
       })
 
       reduce((previous: any, current: Function): any => current(previous), magickClient, chain)
