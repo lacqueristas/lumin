@@ -21,7 +21,7 @@ logger.info("Starting worker...")
 
 zmqPullClient()
   .on("message", pipe(JSON.parse, ([id, names]) => {
-    const from = googleStorageBucket.file(`raws/${id}`).createReadStream()
+    const from = googleStorageBucket.file(`raw/${id}`).createReadStream()
 
     const applicableLenses = applicable(names)
 

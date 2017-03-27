@@ -34,7 +34,7 @@ application.post("/images", function createImage (request: any, response: any): 
   const lenses = split(",", request.query.lenses || "original")
 
   return request
-    .pipe(googleStorageBucket.file(`raws/${id}`).createWriteStream({
+    .pipe(googleStorageBucket.file(`raw/${id}`).createWriteStream({
       "gzip": true,
       "cacheControl": "public, max-age=31556926",
       "resumable": false,
