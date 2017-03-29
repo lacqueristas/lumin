@@ -57,6 +57,7 @@
     "cors": "2.8.1",
     "express": "4.15.2",
     "fast-crc32c": "1.0.4",
+    "file-type-stream": "1.0.0",
     "gm": "1.23.0",
     "httpstatuses": "3.0.0",
     "morgan": "1.8.1",
