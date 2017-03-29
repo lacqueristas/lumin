@@ -35,13 +35,17 @@ application.post("/images", function createImage (request: any, response: any): 
   const id = uuid()
   const lenses = split(",", request.query.lenses || "original")
 
-  return request
-    .pipe(googleStorageBucket.file(`raw/${id}`).createWriteStream({
+  const to = googleStorageBucket
+    .file(`raw/${id}`)
+    .createWriteStream({
       "gzip": true,
       "cacheControl": "public, max-age=31556926",
       "resumable": false,
       "private": true,
-    }))
+    })
+
+  return request
+    .pipe(to)
     .on("error", logger.error.bind(logger))
     .on("finish", (): any => {
       zmqPushClient().send(JSON.stringify([id, lenses]))
