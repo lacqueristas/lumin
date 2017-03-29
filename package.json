@@ -54,7 +54,7 @@
     "babel-preset-flow": "6.23.0",
     "bunyan": "1.8.9",
     "compression": "1.6.2",
-    "cors": "2.8.1",
+    "cors": "2.8.2",
     "express": "4.15.2",
     "fast-crc32c": "1.0.4",
     "file-type-stream": "1.0.0",
