@@ -1,0 +1,1 @@
+type MutationType = Array<string>
