@@ -19,9 +19,7 @@
   "author": "Kurtis Rainbolt-Greene <kurtis@rainbolt-greene.online>",
   "license": "ISC",
   "scripts": {
-    "start": "npm-run-all --parallel start:server start:worker",
-    "start:server": "node './transpiled/server/index.js'",
-    "start:worker": "node './transpiled/worker/index.js'",
+    "start": "node './transpiled/index.js'",
     "build": "babel './source/' --out-dir './transpiled/'",
     "watch": "npm-run-all --parallel watch:build watch:lint watch:test",
     "watch:lint": "chokidar './source/' --ignore '/node_modules/' --command 'npm run lint --silent'",
