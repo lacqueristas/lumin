@@ -13,7 +13,6 @@ import {map} from "ramda"
 
 import {logger} from "../remote"
 import {googleCloudStorage} from "../remote"
-import {zmqPushClient} from "../remote"
 
 requireEnvironmentVariables([
   "PORT",
@@ -48,7 +47,6 @@ application.post("/images", function createImage (request: any, response: any): 
     .pipe(to)
     .on("error", logger.error.bind(logger))
     .on("finish", (): any => {
-      zmqPushClient().send(JSON.stringify([id, lenses]))
 
       return response
         .status(created)

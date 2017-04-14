@@ -8,7 +8,7 @@ WORKDIR $APPLICATION
 
 COPY package.json $APPLICATION/
 
-RUN apk add --no-cache build-base python tzdata libjpeg-turbo-dev libpng-dev ffmpeg zeromq-dev
+RUN apk add --no-cache build-base python tzdata libjpeg-turbo-dev libpng-dev ffmpeg
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/v3.5/community graphicsmagick
 RUN npm install
 
