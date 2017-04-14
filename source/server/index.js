@@ -46,9 +46,14 @@ application.post("/images", function createImage (request: any, response: any): 
   return request
     .pipe(to)
     .on("error", logger.error.bind(logger))
-    .on("finish", (): any => {
-
-      return response
+    .on("finish", () => {
+      process.send({
+        id,
+        lenses,
+      })
+    })
+    .on("finish", () => {
+      response
         .status(created)
         .links(zipObj(lenses, map((lense: string): string => `${process.env.LUMIN_LOCATION}/images/${id}/${lense}`, lenses)))
         .end()

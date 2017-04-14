@@ -1,21 +1,18 @@
-import {PassThrough} from "stream"
 import requireEnvironmentVariables from "require-environment-variables"
-import {pipe} from "ramda"
-import {reduce} from "ramda"
 import {forEach} from "ramda"
-import magick from "gm"
-import fileTypeStream from "file-type-stream"
+import {head} from "ramda"
 
 import {logger} from "../remote"
-import {googleCloudStorage} from "../remote"
 
 import applicable from "./applicable"
-import apply from "./apply"
+import processLense from "./processLense"
 
 requireEnvironmentVariables([
   "GOOGLE_CLOUD_STORAGE_BUCKET",
 ])
 
-const googleStorageBucket = googleCloudStorage.bucket(process.env.GOOGLE_CLOUD_STORAGE_BUCKET)
+logger.info("Starting worker")
 
-logger.info("Starting worker...")
+process.on("message", function receiveMessage ({id, lenses}: {id: string, lenses: Array<string>}) {
+  forEach(processLense(id), applicable(lenses))
+})
