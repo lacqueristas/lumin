@@ -25,10 +25,12 @@ const googleStorageBucket = googleCloudStorage.bucket(process.env.GOOGLE_CLOUD_S
 
 const application = express()
 
-application.use(cors())
+application.use(cors({exposedHeaders: ["Link", "Content-Type"]}))
 application.use(morgan("dev"))
 application.use(compression())
 application.use(express.static(join(__dirname, "public")))
+
+application.options("*", cors({exposedHeaders: ["Link", "Content-Type"]}))
 
 application.post("/images", function createImage (request: any, response: any): any {
   const id = uuid()
