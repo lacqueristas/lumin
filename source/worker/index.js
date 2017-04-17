@@ -1,6 +1,5 @@
 import requireEnvironmentVariables from "require-environment-variables"
 import {forEach} from "ramda"
-import {head} from "ramda"
 
 import {logger} from "../remote"
 
