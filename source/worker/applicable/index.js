@@ -1,5 +1,5 @@
 import {map} from "ramda"
-import {compact} from "ramda-extra"
+import compact from "@unction/compact"
 
 import lenses from "./lenses"
 import findLenseByName from "./findLenseByName"
