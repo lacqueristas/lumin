@@ -3,6 +3,7 @@ FROM node:7.9.0-alpine
 ENV APPLICATION /usr/lib/lumin
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NODE_ENV production
+ENV PORT 3002
 
 WORKDIR $APPLICATION
 
@@ -19,4 +20,6 @@ COPY googleCloud.secret.json $APPLICATION/
 
 RUN npm run build
 
-CMD npm run start
+EXPOSE $PORT
+
+CMD ["npm", "run", "start"]
