@@ -1,7 +1,7 @@
 import {PassThrough} from "stream"
 import magick from "gm"
 import fileTypeStream from "file-type-stream"
-import {reduce} from "ramda"
+import reduceValues from "@unction/reducevalues"
 
 import {googleCloudStorage} from "../../remote"
 import {logger} from "../../remote"
@@ -18,7 +18,7 @@ export default function processLense (id: string): Function {
   return function processLenseId ({name, pipeline}: LenseType) {
     const bridge = new PassThrough()
 
-    reduce((previous: any, current: Function): any => current(previous), graphicsMagick, apply(pipeline))
+    reduceValues((previous: any): Function => (current: Function): any => current(previous))(graphicsMagick)(apply(pipeline))
       .stream()
       .on("error", logger.error.bind(logger))
       .on("end", (): any => logger.info(`Finished processing ${id}/${name}`))
