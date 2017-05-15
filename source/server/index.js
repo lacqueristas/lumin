@@ -22,16 +22,19 @@ requireEnvironmentVariables([
 
 const GOOGLE_CLOUD_URI = "https://storage.googleapis.com"
 const googleStorageBucket = googleCloudStorage.bucket(process.env.GOOGLE_CLOUD_STORAGE_BUCKET)
+const corsConfiguration = {
+  origin: process.env.WWW_LOCATION,
+  exposedHeaders: ["Link", "Content-Type"],
+}
 
 const application = express()
 
-application.use(cors({exposedHeaders: ["Link", "Content-Type"]}))
+application.use(cors())
 application.use(morgan("dev"))
 application.use(compression())
 application.use(express.static(join(__dirname, "public")))
 
-application.options("*", cors({exposedHeaders: ["Link", "Content-Type"]}))
-
+application.options("/images", cors(corsConfiguration))
 application.post("/images", function createImage (request: any, response: any): any {
   const id = uuid()
   const lenses = split(",", request.query.lenses || "original")
@@ -62,6 +65,7 @@ application.post("/images", function createImage (request: any, response: any): 
     })
 })
 
+application.options("/images/:id/:lense", cors(corsConfiguration))
 application.get("/images/:id/:lense", function showImage (request: any, response: any): any {
   return response.redirect(`${GOOGLE_CLOUD_URI}/${process.env.GOOGLE_CLOUD_STORAGE_BUCKET}/processed/${request.params.id}/${request.params.lense}`)
 })
