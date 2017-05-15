@@ -7,11 +7,13 @@ ENV PORT 3002
 
 WORKDIR $APPLICATION
 
-COPY package.json $APPLICATION/
-
 RUN apk add --no-cache build-base python tzdata libjpeg-turbo-dev libpng-dev ffmpeg
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/v3.5/community graphicsmagick
-RUN npm install
+
+COPY package.json $APPLICATION/
+
+RUN npm install --global npm5
+RUN npm5 install
 
 COPY data/ $APPLICATION/data/
 COPY source/ $APPLICATION/source/
