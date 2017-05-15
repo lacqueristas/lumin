@@ -9,7 +9,7 @@ import uuid from "uuid/v4"
 import {created} from "httpstatuses"
 import {split} from "ramda"
 import {zipObj} from "ramda"
-import {map} from "ramda"
+import mapValues from "@unction/mapvalues"
 
 import {logger} from "../remote"
 import {googleCloudStorage} from "../remote"
@@ -57,7 +57,7 @@ application.post("/images", function createImage (request: any, response: any): 
     .on("finish", () => {
       response
         .status(created)
-        .links(zipObj(lenses, map((lense: string): string => `${process.env.LUMIN_LOCATION}/images/${id}/${lense}`, lenses)))
+        .links(zipObj(lenses, mapValues((lense: string): string => `${process.env.LUMIN_LOCATION}/images/${id}/${lense}`)(lenses)))
         .end()
     })
 })
