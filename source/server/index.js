@@ -5,6 +5,7 @@ import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import compression from "compression"
+import helmet from "helmet"
 import uuid from "uuid/v4"
 import {created} from "httpstatuses"
 import {split} from "ramda"
@@ -32,6 +33,7 @@ const application = express()
 application.use(cors())
 application.use(morgan("dev"))
 application.use(compression())
+application.use(helmet())
 application.use(express.static(join(__dirname, "public")))
 
 application.options("/images", cors(corsConfiguration))
@@ -69,7 +71,6 @@ application.options("/images/:id/:lense", cors(corsConfiguration))
 application.get("/images/:id/:lense", function showImage (request: any, response: any): any {
   return response.redirect(`${GOOGLE_CLOUD_URI}/${process.env.GOOGLE_CLOUD_STORAGE_BUCKET}/processed/${request.params.id}/${request.params.lense}`)
 })
-
 
 application.listen(
   process.env.PORT,
