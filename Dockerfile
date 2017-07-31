@@ -1,24 +1,21 @@
-FROM node:7.9.0-alpine
+FROM heroku/heroku:16-build
 
-ENV APPLICATION /usr/lib/lumin
+ENV APPLICATION /app
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NODE_ENV production
 ENV PORT 3002
 
 WORKDIR $APPLICATION
 
-RUN apk add --no-cache build-base python tzdata libjpeg-turbo-dev libpng-dev ffmpeg
-RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/v3.5/community graphicsmagick
-
 COPY package.json $APPLICATION/
-
-RUN npm install --global npm5
-RUN npm5 install
-
-COPY data/ $APPLICATION/data/
-COPY source/ $APPLICATION/source/
+COPY data/ $APPLICATION/data
+COPY source/ $APPLICATION/source
 COPY .babelrc $APPLICATION/
-COPY googleCloud.secret.json $APPLICATION/
+COPY gulpfile.js $APPLICATION/
+
+RUN wget -q -O /heroku-buildpack-nodejs-master.zip https://github.com/heroku/heroku-buildpack-nodejs/archive/master.zip
+RUN unzip -q /heroku-buildpack-nodejs-master.zip -d /
+RUN /heroku-buildpack-nodejs-master/bin/detect $APPLICATION && /heroku-buildpack-nodejs-master/bin/compile $APPLICATION/ /tmp
 
 RUN npm run build
 
