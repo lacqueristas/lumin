@@ -20,6 +20,7 @@
   "license": "ISC",
   "scripts": {
     "start": "node './transpiled/index.js'",
+    "postinstall": "npm run build",
     "build": "babel './source/' --out-dir './transpiled/'",
     "watch": "npm-run-all --parallel watch:build watch:lint watch:test",
     "watch:lint": "chokidar './source/' --ignore '/node_modules/' --command 'npm run lint --silent'",
