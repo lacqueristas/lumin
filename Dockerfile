@@ -16,8 +16,6 @@ RUN wget -q -O /heroku-buildpack-nodejs-master.zip https://github.com/heroku/her
 RUN unzip -q /heroku-buildpack-nodejs-master.zip -d /
 RUN /heroku-buildpack-nodejs-master/bin/detect $APPLICATION && /heroku-buildpack-nodejs-master/bin/compile $APPLICATION/ /tmp
 
-RUN npm run build
-
 EXPOSE $PORT
 
 CMD ["npm", "run", "start"]
