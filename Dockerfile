@@ -12,9 +12,9 @@ COPY data/ $APPLICATION/data
 COPY source/ $APPLICATION/source
 COPY .babelrc $APPLICATION/
 
-RUN wget -q -O /heroku-buildpack-nodejs-master.zip https://github.com/heroku/heroku-buildpack-nodejs/archive/master.zip
-RUN unzip -q /heroku-buildpack-nodejs-master.zip -d /
-RUN /heroku-buildpack-nodejs-master/bin/detect $APPLICATION && /heroku-buildpack-nodejs-master/bin/compile $APPLICATION/ /tmp
+RUN wget -q -O /tmp/heroku-buildpack-nodejs-master.zip https://github.com/heroku/heroku-buildpack-nodejs/archive/master.zip
+RUN unzip -q /tmp/heroku-buildpack-nodejs-master.zip -d /tmp
+RUN /tmp/heroku-buildpack-nodejs-master/bin/detect $APPLICATION && /tmp/heroku-buildpack-nodejs-master/bin/compile $APPLICATION/ /tmp
 
 EXPOSE $PORT
 
